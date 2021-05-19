@@ -19,15 +19,19 @@ class ProductsController < ApplicationController
 
 
   def index
-    # render json: {message: "TEST"}
-    products = Product.all
-    render json: products.as_json
+    products = Product.all 
+    if params[:search_term]
+      products = products.where("name iLIKE ?", "%#{params[:search_term]}%")
+    end
+    products = products.order[:price]
+
+    render json: products
   end
 
   def show
     # render json: {message: "TEST"}
     product = Product.find(params[:id])
-    render json: product.as_json(methods: [:is_discounted?])
+    render json: product
   end
 
   def create
@@ -38,7 +42,12 @@ class ProductsController < ApplicationController
       image_url: params[:image_url]
       )
     product.save
-    render json: product.as_json
+    render json: product
+    if product.save
+      render json: product
+    else
+      render json: {errors: product.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -50,7 +59,12 @@ class ProductsController < ApplicationController
     product.description = params[:description] || product.description
     
     product.save
-    render json: product.as_json
+    render json: product
+    if product.save
+      render json: product
+    else
+      render json: {errors: product.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def destroy
