@@ -1,0 +1,22 @@
+steps nec for backend to allow user to purchase products:
+
+(assuming user is logged in...)
+1) user creates order after selecting from available products
+
+
+-After order successfully placed, lower inventory of product by 1
+  -Or after order is created, so product doesn't get snatched from under users nose? 
+
+
+
+EXERCISE: 
+Spend the next 5 minutes decomposing the following problem (just decompose the problem, do not write any code to actually solve the problem for now):
+Write a function that takes in an array of numbers and returns a new array of the same numbers without any duplicates.
+
+
+-Write function that takes in one number parameter and returns that same number
+-Write a function that takes in one number parameter and returns a new array containing that number
+-Write a function that takes in an array of numbers and returns that same array of numbers
+-Write a function that takes in an array of numbers and returns the same array + the message "Getting close!"
+-Write a function that takes in an array of numbers and returns a new array of the same numbers without any duplicates 
+

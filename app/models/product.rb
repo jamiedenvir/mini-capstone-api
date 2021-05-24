@@ -1,28 +1,28 @@
 class Product < ApplicationRecord
 
   belongs_to :supplier 
+  has_many :orders
+  has_many :images #array of image objects
 
   def supplier_name
     supplier.name
   end
 
 
-
   validates :name, presence: true, uniqueness: true
-
   validates :price, numericality: {greater_than: 0}
+  validates :description, length: {in: 10..500}
 
-  validates :description, length: {maximum: 500}
-  
-  validates :quantity, numericality: {greater_than: 0}
+  def is_discounted?
+    price < 10
+  end
 
-  
+  def tax
+    price * 0.09
+  end
 
-
-
-
-  # def is_discounted?
-  # end
-
+  def total
+    price + tax
+  end
 
 end

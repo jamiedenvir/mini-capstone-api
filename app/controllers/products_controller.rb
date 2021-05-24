@@ -1,37 +1,28 @@
 class ProductsController < ApplicationController
 
-  # def first_product
-  #   product = Product.first
-  #   render json: product.as_json
-  # end
-
-  # def second_product
-  #   product = Product.second
-  #   render json: product.as_json
-  # end
-
-  
-  # def any_product_by_name
-  #   product = params[:product_name]
-  #   display_product = Product.find_by(name: product)
-  #   render json: display_product
-  # end
+  before_action :authenticate_admin, except: [:index, :show]
 
 
   def index
     products = Product.all 
+
     if params[:search_term]
       products = products.where("name iLIKE ?", "%#{params[:search_term]}%")
     end
-    products = products.order[:price]
+
+    if params[:discount]
+      products = products.where("price < ?", 10)
+    end
+
+    if params[:sort] == "price" && params[:sort_order] == "asc"
+      products = products.order(price: :asc)
+    elsif params[:sort] == "price" && params[:sort_order] == "desc"
+      products = products.order(price: :desc)
+    else
+      products = products.order(id: :asc)
+    end
 
     render json: products
-  end
-
-  def show
-    # render json: {message: "TEST"}
-    product = Product.find(params[:id])
-    render json: product
   end
 
   def create
@@ -39,27 +30,33 @@ class ProductsController < ApplicationController
       name: params[:name],
       price: params[:price],
       description: params[:description],
-      image_url: params[:image_url]
-      )
-    product.save
-    render json: product
+      supplier_id: params[:supplier_id],
+      quantity: params[:quantity]
+    )
     if product.save
+      if params[:url]
+        Image.create(
+          url: params[:url],
+          product_id: product.id
+        )
+      end
       render json: product
     else
       render json: {errors: product.errors.full_messages}, status: :unprocessable_entity
     end
   end
 
+  def show
+    product = Product.find_by(id: params[:id])
+    render json: product
+  end
+
+  
   def update
-    # render json: {messgae: "TEST"}
-    product = Product.find(params[:id])
+    product = Product.find_by(id: params[:id])
     product.name = params[:name] || product.name
     product.price = params[:price] || product.price
-    product.image_url = params[:image_url] || product.image_url
     product.description = params[:description] || product.description
-    
-    product.save
-    render json: product
     if product.save
       render json: product
     else
@@ -67,12 +64,11 @@ class ProductsController < ApplicationController
     end
   end
 
+
   def destroy
-    product = Product.find(params[:id])
+    product = Product.find_by(id: params[:id])
     product.destroy
-    render json: {message: "Product successfully obliterated"}
-
-
+    render json: { message: "Product destroyed successfully!" }
   end
 
 end

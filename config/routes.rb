@@ -1,20 +1,14 @@
 Rails.application.routes.draw do
-  
-  # get "/first_product", controller: "products", action: "first_product"
-  
-  # get "/second_product", controller: "products", action: "second_product"
+  get "/products" => "products#index"
+  post "/products" => "products#create"
+  get "/products/:id" => "products#show"
+  patch "/products/:id" => "products#update"
+  delete "/products/:id" => "products#destroy"
 
-  # get "/any_product/:product" => "products#any_product"
-  
-  # get "/any_product_by_name/:product" => "products#any_product_by_name"
+  post "/users" => "users#create"
+  post "/sessions" => "sessions#create"
 
-  get "/products", controller: "products", action: "index"
-
-  get "/products/:id", controller: "products", action: "show"
-
-  post "/products", controller: "products", action: "create"
-
-  patch "/products/:id", controller: "products", action: "update"
-
-  delete "/products/:id", controller: "products", action: "destroy"
+  get "/orders" => "orders#index"
+  post "/orders" => "orders#create"
+  get "/orders/:id" => "orders#show"
 end
