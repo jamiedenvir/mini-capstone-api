@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   belongs_to :supplier 
   has_many :orders
   has_many :images #array of image objects
+  has_many :category_products
+  has_many :categories, through: :category_products
 
   def supplier_name
     supplier.name
@@ -14,7 +16,7 @@ class Product < ApplicationRecord
   validates :description, length: {in: 10..500}
 
   def is_discounted?
-    price < 10
+    price < 10 
   end
 
   def tax

@@ -5,22 +5,28 @@ class ProductsController < ApplicationController
 
   def index
     products = Product.all 
+      
+    if params[:category]
+      category = Category.find_by("name iLIKE ?", params[:category])
+      products = category.products
 
-    if params[:search_term]
-      products = products.where("name iLIKE ?", "%#{params[:search_term]}%")
     end
+      
+    # if params[:search_term]
+    #   products = products.where("name iLIKE ?", "%#{params[:search_term]}%")
+    # end
 
-    if params[:discount]
-      products = products.where("price < ?", 10)
-    end
+    # if params[:discount]
+    #   products = products.where("price < ?", 10)
+    # end
 
-    if params[:sort] == "price" && params[:sort_order] == "asc"
-      products = products.order(price: :asc)
-    elsif params[:sort] == "price" && params[:sort_order] == "desc"
-      products = products.order(price: :desc)
-    else
-      products = products.order(id: :asc)
-    end
+    # if params[:sort] == "price" && params[:sort_order] == "asc"
+    #   products = products.order(price: :asc)
+    # elsif params[:sort] == "price" && params[:sort_order] == "desc"
+    #   products = products.order(price: :desc)
+    # else
+    #   products = products.order(id: :asc)
+    # end
 
     render json: products
   end

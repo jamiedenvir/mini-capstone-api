@@ -11,8 +11,15 @@
 
 
 
-Supplier.create!([
-  {name: "Nike", email: "nike@official.nike.com", phone_number: "1-800-806-6453"},
-  {name: "Reebok", email: "reebok@us-info.reebok.com", phone_number: "1-866-870-1743"},
-  {name: "Zappos", email: "cs@zappos.com", phone_number: "1-800-927-7671"}
+# Supplier.create!([
+#   {name: "Nike", email: "nike@official.nike.com", phone_number: "1-800-806-6453"},
+#   {name: "Reebok", email: "reebok@us-info.reebok.com", phone_number: "1-866-870-1743"},
+#   {name: "Zappos", email: "cs@zappos.com", phone_number: "1-800-927-7671"}
+# ])
+
+
+categories = Category.create!([
+  {name: "Running Shoe"},
+  {name: "Basketball Shoe"},
+  {name: "Street Shoe"}
 ])
