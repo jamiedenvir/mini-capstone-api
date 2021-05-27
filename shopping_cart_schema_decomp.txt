@@ -1,0 +1,19 @@
+Exercise: Decomposition
+Write out all the steps necessary for your mini-capstone-api to allow users to purchase multiple products with a shopping cart. (aim for roughly 10 to 15 steps)
+Do not write any code for this exercise; just focus on decomposing the different steps necessary to complete the shopping cart feature.
+
+
+
+-g model for shopping cart (w/ product_id, quantity, user_id, order_id, status(purchase/removed/carted)
+-CHECK: migrate file look good?
+-db:migrate -- migrate to database
+-generate shopping cart controller
+  -in shopping cart controller, add the following actions: create, update(?), index
+-TEST: test actions in insomnia ("sanity check")
+-associations -- who belongs to whom
+  -in users model, indicate that Users has many carted products & has many orders
+
+
+  *where to put method to change status of carted product when ordered? ... orders controller, create action
+
+

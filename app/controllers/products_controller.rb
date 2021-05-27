@@ -2,18 +2,16 @@ class ProductsController < ApplicationController
 
   before_action :authenticate_admin, except: [:index, :show]
 
-
   def index
-    products = Product.all 
-      
+    products = Product.all
+
     if params[:category]
       category = Category.find_by("name iLIKE ?", params[:category])
       products = category.products
-
     end
-      
-    # if params[:search_term]
-    #   products = products.where("name iLIKE ?", "%#{params[:search_term]}%")
+
+    # if params[:search]
+    #   products = products.where("name LIKE ?", "%#{params[:search]}%")
     # end
 
     # if params[:discount]
@@ -28,7 +26,7 @@ class ProductsController < ApplicationController
     #   products = products.order(id: :asc)
     # end
 
-    render json: products
+    render json: products.order(:id)
   end
 
   def create
@@ -57,7 +55,6 @@ class ProductsController < ApplicationController
     render json: product
   end
 
-  
   def update
     product = Product.find_by(id: params[:id])
     product.name = params[:name] || product.name
@@ -70,11 +67,9 @@ class ProductsController < ApplicationController
     end
   end
 
-
   def destroy
     product = Product.find_by(id: params[:id])
     product.destroy
     render json: { message: "Product destroyed successfully!" }
   end
-
 end
